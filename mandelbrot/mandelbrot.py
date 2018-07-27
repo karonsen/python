@@ -27,6 +27,15 @@ if __name__ == '__main__':
     tolerance = 5
     X, Y, Z, N = mandelbrot_loop(x_min, x_max, dx, y_min, y_max, dy, \
             n_max, tolerance)
+
+    # This part adds a fractional part to the iteration count, making the
+    # figure smoother looking. The fractional part is based on how much 
+    # larger than the tolerance the absolute of z became when it crossed it.
+    # This is an estimate of how quickly the iterated map diverges.
+    # Read about this in following link:
+    # https://linas.org/art-gallery/escape/smooth.html
+    # For an implementation that uses more features of numpy to calculate
+    # the map see https://matplotlib.org/examples/showcase/mandelbrot.html
     with np.errstate(invalid="ignore"):
         M = np.nan_to_num(N + 1 - np.log(np.log(np.abs(Z)))/np.log(2) \
                 + np.log(tolerance))
